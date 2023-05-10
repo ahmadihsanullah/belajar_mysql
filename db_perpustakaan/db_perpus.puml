@@ -1,0 +1,73 @@
+@startuml
+
+entity Anggota {
+    * id VARCHAR(1000) NOT NULL <<PK>>
+    --
+    nama VARCHAR(100) NOT NULL
+    jenis_kelamin VARCHAR(100) NOT NULL
+    tempat_lahir VARCHAR(100) NOT NULL
+    alamat TEXT
+    tgl_regitrasi DATE NOT NULL
+    tlg_expire DATE NOT NULL
+}
+
+entity Buku {
+    * id VARCHAR(100) NOT NULL <<PK>>
+    --
+    * id_kategori VARCHAR(100) <<FK>>
+    judul VARCHAR(100) NOT NULL
+    penerbit VARCHAR(100) NOT NULL
+    tgl_terbit DATE NOT NULL 
+    pengarang VARCHAR(100) NOT NULL
+    jumlah_stok INT NOT NULL
+    jumlah_halaman INT NOT NULL
+    asal_buku VARCHAR(100)
+}
+
+entity Kategori {
+    * id VARCHAR(100) NOT NULL <<PK>>
+    --
+    nama VARCHAR(100) NOT NULL
+    keterangan TEXT
+}
+
+entity Peminjam{
+    * id_buku VARCHAR(100) NOT NULL <<PK>>
+    * id_anggota VARCHAR(100) NOT NULL <<PK>>
+    --
+    tgl_pinjam DATE NOT NULL
+    tgl_tempo DATE NOT NULL
+    tgl_kembali DATE NOT NULL
+    bayar INT NOT NULL
+}
+
+entity Pengembalian {
+    * id_buku VARCHAR(100) NOT NULL <<PK>>
+    * id_anggota VARCHAR(100) NOT NULL <<PK>>
+    --
+    tgl_pinjam DATE NOT NULL
+    tgl_tempo DATE NOT NULL
+    tgl_kembali DATE NOT NULL
+    bayar INT 
+    denda INT 
+    status VARCHAR(100) NOT NULL
+}
+
+entity Denda {
+    *id_buku <<PK>><<FK>>
+    -- 
+    tgl DATE NOT NULL
+    lama INT NOT NULL
+    denda INT NOT NULL
+    total INT NOT NULL
+}
+
+Anggota }|--|{ Buku
+Buku }|--|| Kategori
+Anggota }|--o{ Peminjam
+Buku }|--o{ Peminjam
+Anggota }|--o{ Pengembalian
+Buku }|--o{ Pengembalian
+Anggota }o--o{ Denda
+Buku }o--o{ Denda
+@enduml
